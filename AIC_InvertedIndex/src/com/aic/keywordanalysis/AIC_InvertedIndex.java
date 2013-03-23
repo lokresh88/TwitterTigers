@@ -55,7 +55,7 @@ import org.json.simple.JSONValue;
 		HashMap<String,Integer> Wordcount = new HashMap<String, Integer>();
 		int count=0;
 	//	Wordcount.put("Test", 2);
-		BufferedReader buf = new BufferedReader(new FileReader("/Users/srirammv/Downloads/KaleyCuoco.json"));
+		BufferedReader buf = new BufferedReader(new FileReader("C:\\Users\\lokesh\\Desktop\\AIC\\Project\\run1\\db\\BarackObama.json"));
 		do
 		{
 			obj = JSONValue.parse(buf.readLine());
