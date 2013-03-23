@@ -17,14 +17,15 @@ public class AIC_DataProcessing {
 		JSONObject jsonObject;
 		String obj;
 		DBUtils db = new DBUtils();
-		JSONObject userjson = new JSONObject();
+		
 		db.refreshDB();
 		File folder = new File(
 				"C:\\Users\\lokesh\\Desktop\\AIC\\Project\\run1\\db\\");
 		for (final File fileEntry : folder.listFiles()) {
 			if (!fileEntry.isDirectory()
 					&& fileEntry.getAbsolutePath().contains(".json")) {
-				System.out.print("Starting for --"+fileEntry.getAbsolutePath());
+				JSONObject userjson = null;
+				System.out.println("Starting for --"+fileEntry.getAbsolutePath());
 				BufferedReader buf = new BufferedReader(new FileReader(
 						fileEntry.getAbsolutePath()));
 				while((obj=buf.readLine())!=null) {
@@ -46,6 +47,9 @@ public class AIC_DataProcessing {
 						db.createCTweet(cdata);
 					}					
 				}
+				if(userjson==null)
+					continue;
+				
 				db.createCeleb(userjson);
 				buf.close();
 				

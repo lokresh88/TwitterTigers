@@ -9,6 +9,7 @@ import org.json.simple.JSONObject;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.Mongo;
 
 public class DBUtils {
@@ -79,6 +80,21 @@ public class DBUtils {
 		coll.insert(doc);
 				
 	}
+
+	public Long getCelebId(String screen_name) {
+
+		// Create your BSON
+		BasicDBObject doc = new BasicDBObject();
+		doc.put(DB_CELEBS_SCREENNAME, screen_name);
+
+		DBCollection coll = db.getCollection(DB_CELEBS);
+		DBCursor cur = coll.find(doc);
+		if(cur.hasNext()) {
+		    BasicDBObject op = (BasicDBObject)(cur.next());
+		    return op.getLong("CID");
+		}
+		return new Long(-1);
+	}
 	
 	public void createSuggestion(JSONObject sugJson) {
 
@@ -116,12 +132,16 @@ public class DBUtils {
 		DBCollection coll = db.getCollection(DB_CELEBS);
 		coll.remove(new BasicDBObject());
 		
-		DBCollection coll1 = db.getCollection(DB_SUGGESTIONS);
-		coll1.remove(new BasicDBObject());
 		
 		DBCollection coll2 = db.getCollection(DB_CTWEETS);
 		coll2.remove(new BasicDBObject());
 
+	}
+	
+	public void refreshDBSuggestions(){
+		DBCollection coll1 = db.getCollection(DB_SUGGESTIONS);
+		coll1.remove(new BasicDBObject());
+		
 	}
 	
 }
