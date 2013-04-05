@@ -13,135 +13,167 @@ import com.mongodb.DBCursor;
 import com.mongodb.Mongo;
 
 public class DBUtils {
-	private static final Logger log = Logger.getLogger(DBUtils.class.getName());
-	Mongo mongoObj;
-	DB db;
-	
-	private final static String DB_CELEBS = "Celebritries";
-	private final static String DB_CELEBS_CID = "CID";
-	private final static String DB_CELEBS_SCREENNAME = "Screen_Name";
-	private final static String DB_CELEBS_JSON = "JSON";
-	
-	private final static String DB_SUGGESTIONS = "Suggestions";
-	private final static String DB_SUG_KEYS = "Keywords";
-	private final static String DB_SUG_CID = "CID";
-	private final static String DB_SUG_FREQ = "Frequency";
-	private final static String DB_SUG_ISACTIVE = "Isactive";
-	
-	private final static String DB_CTWEETS = "CTweets";
-	private final static String DB_CTWEETS_CID = "CID"; // 
-	private final static String DB_CTWEETS_TID = "TID";
-	private final static String DB_CTWEETS_JSON = "TJSON";
-	private final static String DB_CTWEETS_Time = "Time";
-	private final static String DB_CTWEETS_Text = "Text";
-	
-	private final static String DB_CTWEETS_RTO = "RTO";   // -1 for Originals , CID for Retweets
-	private final static String DB_CTWEETS_UserJson = "User"; // Null for Originals, User followers details for retweets
-	
-	
-	/*********** Managing DB CONNECTIONS ***************/
+    private static final Logger log = Logger.getLogger(DBUtils.class.getName());
+    Mongo mongoObj;
+    DB db;
 
-	public DBUtils() throws UnknownHostException {
+    private final static String DB_CELEBS = "Celebritries";
+    private final static String DB_CELEBS_CID = "CID";
+    private final static String DB_CELEBS_SCREENNAME = "Screen_Name";
+    private final static String DB_CELEBS_JSON = "JSON";
 
-		try{
-		// object will be a connection to a MongoDB server for the specified
-		// database.
-		mongoObj = new Mongo("127.0.0.1", 27017);
+    private final static String DB_SUGGESTIONS = "Suggestions";
+    private final static String DB_SUG_KEYS = "Keywords";
+    private final static String DB_SUG_CID = "CID";
+    private final static String DB_SUG_FREQ = "Frequency";
+    private final static String DB_SUG_ISACTIVE = "Isactive";
 
-		// get a intsance to db
-		db = mongoObj.getDB("TwitterData");
-		}catch(Exception exp){
-			exp.printStackTrace();
-		}
-	}
+    private final static String DB_GEO = "GeoMap";
+    private final static String DB_GEO_LOC = "LOCID";
+    private final static String DB_GEO_CNT = "CNTRY";
+    private final static String DB_GEO_CTY = "CTY";
+    private final static String DB_GEO_LAT = "LATITUDE";
+    private final static String DB_GEO_LONG = "LONGITUDE";
 
-	public void closeConnection() {
-		mongoObj.close();
-	}
+    private final static String DB_CTWEETS = "CTweets";
+    private final static String DB_CTWEETS_CID = "CID"; //
+    private final static String DB_CTWEETS_TID = "TID";
+    private final static String DB_CTWEETS_JSON = "TJSON";
+    private final static String DB_CTWEETS_Time = "Time";
+    private final static String DB_CTWEETS_Text = "Text";
 
-	/*********** Managing Celeb Info ***************/
+    private final static String DB_CTWEETS_RTO = "RTO"; // -1 for Originals ,
+                                                        // CID for Retweets
+    private final static String DB_CTWEETS_UserJson = "User"; // Null for
+                                                              // Originals, User
+                                                              // followers
+                                                              // details for
+                                                              // retweets
 
-	/**
-	 * createUser Input : user details contained in the User object. Output :
-	 * Status of the database transaction and new user details. Description :
-	 * Adds a new user , creates default list and returns the new user id.
-	 */
+    /*********** Managing DB CONNECTIONS ***************/
 
-	public void createCeleb(JSONObject tjson) {
+    public DBUtils() throws UnknownHostException {
 
-		// Create your BSON
-		BasicDBObject doc = new BasicDBObject();
-		doc.put(DB_CELEBS_CID, tjson.get("id"));
-		doc.put(DB_CELEBS_SCREENNAME, tjson.get("screen_name"));
-		doc.put(DB_CELEBS_JSON, tjson);
+        try {
+            // object will be a connection to a MongoDB server for the specified
+            // database.
+            mongoObj = new Mongo("127.0.0.1", 27017);
 
-		// insert into the database
-		DBCollection coll = db.getCollection(DB_CELEBS);
-		coll.insert(doc);
-				
-	}
+            // get a intsance to db
+            db = mongoObj.getDB("TwitterData");
+        } catch (Exception exp) {
+            exp.printStackTrace();
+        }
+    }
 
-	public Long getCelebId(String screen_name) {
+    public void closeConnection() {
+        mongoObj.close();
+    }
 
-		// Create your BSON
-		BasicDBObject doc = new BasicDBObject();
-		doc.put(DB_CELEBS_SCREENNAME, screen_name);
+    /*********** Managing Celeb Info ***************/
 
-		DBCollection coll = db.getCollection(DB_CELEBS);
-		DBCursor cur = coll.find(doc);
-		if(cur.hasNext()) {
-		    BasicDBObject op = (BasicDBObject)(cur.next());
-		    return op.getLong("CID");
-		}
-		return new Long(-1);
-	}
-	
-	public void createSuggestion(JSONObject sugJson) {
+    /**
+     * createUser Input : user details contained in the User object. Output :
+     * Status of the database transaction and new user details. Description :
+     * Adds a new user , creates default list and returns the new user id.
+     */
 
-		// Create your BSON
-		BasicDBObject doc = new BasicDBObject();
-		doc.put(DB_SUG_ISACTIVE, sugJson.get("ISACTIVE"));
-		doc.put(DB_SUG_FREQ, sugJson.get("FREQ"));
-		doc.put(DB_SUG_KEYS, sugJson.get("KEYWORD"));
-		doc.put(DB_SUG_CID, sugJson.get("CID"));
-		
-		// insert into the database
-		DBCollection coll = db.getCollection(DB_SUGGESTIONS);
-		coll.insert(doc);		
-	}
+    public void createCeleb(JSONObject tjson) {
 
-	public void createCTweet(JSONObject tweetJson) {
+        // Create your BSON
+        BasicDBObject doc = new BasicDBObject();
+        doc.put(DB_CELEBS_CID, tjson.get("id"));
+        doc.put(DB_CELEBS_SCREENNAME, tjson.get("screen_name"));
+        doc.put(DB_CELEBS_JSON, tjson);
 
-		// Create your BSON
-		BasicDBObject doc = new BasicDBObject();
-		doc.put(DB_CTWEETS_CID, tweetJson.get("CID"));
-		doc.put(DB_CTWEETS_TID, tweetJson.get("TID"));
-		doc.put(DB_CTWEETS_Text, tweetJson.get("Text"));
-		doc.put(DB_CTWEETS_Time, tweetJson.get("Time"));
-		doc.put(DB_CTWEETS_JSON, tweetJson.get("JSON"));
-		doc.put(DB_CTWEETS_UserJson, tweetJson.get("USERJSON"));
-		doc.put(DB_CTWEETS_RTO, tweetJson.get("RTO"));
-		
-		// insert into the database
-		DBCollection coll = db.getCollection(DB_CTWEETS);
-		coll.insert(doc);		
+        // insert into the database
+        DBCollection coll = db.getCollection(DB_CELEBS);
+        coll.insert(doc);
 
-	}
-	
-	public void refreshDB(){
-		DBCollection coll = db.getCollection(DB_CELEBS);
-		coll.remove(new BasicDBObject());
-		
-		
-		DBCollection coll2 = db.getCollection(DB_CTWEETS);
-		coll2.remove(new BasicDBObject());
+    }
 
-	}
-	
-	public void refreshDBSuggestions(){
-		DBCollection coll1 = db.getCollection(DB_SUGGESTIONS);
-		coll1.remove(new BasicDBObject());
-		
-	}
-	
+    public Long getCelebId(String screen_name) {
+
+        // Create your BSON
+        BasicDBObject doc = new BasicDBObject();
+        doc.put(DB_CELEBS_SCREENNAME, screen_name);
+
+        DBCollection coll = db.getCollection(DB_CELEBS);
+        DBCursor cur = coll.find(doc);
+        if (cur.hasNext()) {
+            BasicDBObject op = (BasicDBObject) (cur.next());
+            return op.getLong("CID");
+        }
+        return new Long(-1);
+    }
+
+    public void createSuggestion(JSONObject sugJson) {
+
+        // Create your BSON
+        BasicDBObject doc = new BasicDBObject();
+        doc.put(DB_SUG_ISACTIVE, sugJson.get("ISACTIVE"));
+        doc.put(DB_SUG_FREQ, sugJson.get("FREQ"));
+        doc.put(DB_SUG_KEYS, sugJson.get("KEYWORD"));
+        doc.put(DB_SUG_CID, sugJson.get("CID"));
+
+        // insert into the database
+        DBCollection coll = db.getCollection(DB_SUGGESTIONS);
+        coll.insert(doc);
+    }
+
+    public void createCTweet(JSONObject tweetJson) {
+
+        // Create your BSON
+        BasicDBObject doc = new BasicDBObject();
+        doc.put(DB_CTWEETS_CID, tweetJson.get("CID"));
+        doc.put(DB_CTWEETS_TID, tweetJson.get("TID"));
+        doc.put(DB_CTWEETS_Text, tweetJson.get("Text"));
+        doc.put(DB_CTWEETS_Time, tweetJson.get("Time"));
+        doc.put(DB_CTWEETS_JSON, tweetJson.get("JSON"));
+        doc.put(DB_CTWEETS_UserJson, tweetJson.get("USERJSON"));
+        doc.put(DB_CTWEETS_RTO, tweetJson.get("RTO"));
+
+        // insert into the database
+        DBCollection coll = db.getCollection(DB_CTWEETS);
+        coll.insert(doc);
+
+    }
+
+    public void createGeoEntry(String[] csvLine) {
+
+        // Create your BSON
+        BasicDBObject doc = new BasicDBObject();
+        doc.put(DB_GEO_CNT, csvLine[1]);
+        doc.put(DB_GEO_LOC, csvLine[0]);
+        doc.put(DB_GEO_CTY, csvLine[3]);
+        doc.put(DB_GEO_LAT, csvLine[5]);
+        doc.put(DB_GEO_LONG, csvLine[6]);
+
+        // insert into the database
+        DBCollection coll = db.getCollection(DB_GEO);
+        coll.insert(doc);
+
+    }
+
+    public void refreshDB() {
+        DBCollection coll = db.getCollection(DB_CELEBS);
+        coll.remove(new BasicDBObject());
+
+        DBCollection coll2 = db.getCollection(DB_CTWEETS);
+        coll2.remove(new BasicDBObject());
+
+    }
+
+    public void refreshDBGEO() {
+        DBCollection coll = db.getCollection(DB_GEO);
+        coll.remove(new BasicDBObject());
+
+    }
+
+    public void refreshDBSuggestions() {
+        DBCollection coll1 = db.getCollection(DB_SUGGESTIONS);
+        coll1.remove(new BasicDBObject());
+
+    }
+
 }

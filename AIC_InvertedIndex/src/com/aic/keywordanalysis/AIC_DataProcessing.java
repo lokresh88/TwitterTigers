@@ -18,18 +18,21 @@ public class AIC_DataProcessing {
 		String obj;
 		DBUtils db = new DBUtils();
 		
-		db.refreshDB();
+//		db.refreshDB();
 		File folder = new File(
-				"C:\\Users\\lokesh\\Desktop\\AIC\\Project\\run1\\db\\");
+				"C:\\Users\\lokesh\\Desktop\\AIC\\Project\\run2\\");
 		for (final File fileEntry : folder.listFiles()) {
 			if (!fileEntry.isDirectory()
-					&& fileEntry.getAbsolutePath().contains(".json")) {
+					&& fileEntry.getAbsolutePath().contains("ama.json")) {
+			//    if(fileEntry.getAbsolutePath().contains("oco.json") || fileEntry.getAbsolutePath().contains("ama.json"))
+			  //      continue;
 				JSONObject userjson = null;
 				System.out.println("Starting for --"+fileEntry.getAbsolutePath());
 				BufferedReader buf = new BufferedReader(new FileReader(
 						fileEntry.getAbsolutePath()));
 				while((obj=buf.readLine())!=null) {
 					jsonObject = (JSONObject)JSONValue.parse(obj);
+					if(jsonObject==null)continue;
 					if (!jsonObject.containsKey("retweeted_status")
 							&& (!jsonObject.containsKey("in_reply_to_screen_name") || jsonObject.get("in_reply_to_screen_name")==null)) {
 						// C Tweets ..
@@ -57,7 +60,8 @@ public class AIC_DataProcessing {
 				buf = new BufferedReader(new FileReader(
 						fileEntry.getAbsolutePath()));
 				while((obj=buf.readLine())!=null) {
-					jsonObject = (JSONObject)JSONValue.parse(obj);									
+					jsonObject = (JSONObject)JSONValue.parse(obj);		
+					if(jsonObject==null)continue;
 					if(jsonObject.containsKey("retweeted_status")){
 						// All retweets from folowers - fans etc
 						JSONObject folowsjson = (JSONObject)jsonObject.get("user");
@@ -91,6 +95,7 @@ public class AIC_DataProcessing {
 			}
 		
 		}
+		db.closeConnection();
 		return;
 	}
 

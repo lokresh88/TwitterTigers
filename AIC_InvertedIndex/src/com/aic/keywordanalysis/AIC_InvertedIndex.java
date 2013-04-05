@@ -51,13 +51,15 @@ public class AIC_InvertedIndex {
 
 	public static void main(String args[]) throws IOException {
 		File folder = new File(
-				"C:\\Users\\lokesh\\Desktop\\AIC\\Project\\run1\\db\\");
+				"C:\\Users\\lokesh\\Desktop\\AIC\\Project\\run2\\");
 		DBUtils db=new DBUtils();
-		db.refreshDBSuggestions();
-		
+		//db.refreshDBSuggestions();
 		for (final File fileEntry : folder.listFiles()) {
 			if (!fileEntry.isDirectory()
-					&& fileEntry.getAbsolutePath().contains(".json")) {
+					&& fileEntry.getAbsolutePath().contains("ama.json")) {
+			    //if(fileEntry.getAbsolutePath().contains("oco.json") || fileEntry.getAbsolutePath().contains("ama.json"))
+                  //  continue;
+                
 				String screenName = fileEntry.getName();
 				screenName = screenName.replace(".json", "");
 				Long cid= db.getCelebId(screenName);
@@ -75,6 +77,7 @@ public class AIC_InvertedIndex {
 						fileEntry.getAbsolutePath()));
 				while((obj=buf.readLine())!=null) {
 					jsonObject = (JSONObject)JSONValue.parse(obj);
+					if(jsonObject==null)continue;
 					String text = (String) jsonObject.get("text");
 					// System.out.println(text);
 					String tokens[] = text.split(" ");
@@ -100,8 +103,10 @@ public class AIC_InvertedIndex {
 					sugJson.put("CID",cid);
 					db.createSuggestion(sugJson);
 				}
+		          System.out.print("Ending for --"+fileEntry.getName());
 
 			}
 		}
+		db.closeConnection();
 	}
 }
