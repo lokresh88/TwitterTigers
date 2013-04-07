@@ -4,7 +4,9 @@ import java.net.UnknownHostException;
 import java.util.logging.Logger;
 
 import org.bson.types.ObjectId;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -154,7 +156,102 @@ public class DBUtils {
         coll.insert(doc);
 
     }
-
+	public JSONArray Celeblists() throws UnknownHostException
+	{
+		DBUtils db = new DBUtils();
+		//BasicDBObject doc = new BasicDBObject();
+		DBCollection coll = db.db.getCollection("Celebritries");
+		BasicDBObject query = new BasicDBObject();
+		query.put("_id", 0);
+		query.put("Screen_Name", 1);
+		DBCursor cursor = coll.find(new BasicDBObject(),query);
+//		cursor.getKeysWanted("Screen_Name");
+		//System.out.println(coll.find());
+		JSONArray Celebs = new JSONArray();
+		
+			
+			   while(cursor.hasNext()) {
+			       JSONObject Celeb;
+			      Celeb = (JSONObject)JSONValue.parse(cursor.next().toString());
+			      String screen_name = (String) Celeb.get("Screen_Name");
+			       Celebs.add(screen_name);
+//			       System.out.println(cursor.next().toString());
+//			       JSONValue.parse(cursor.next().toString()));
+			       
+//			       System.out.println((String)Celeb.get("screen_name"));
+			   }
+			
+			   cursor.close();
+			
+		
+		return Celebs;
+		
+	}
+	public JSONArray SuggestlistperCelebrity(Long CelebID,int limit) throws UnknownHostException
+	{
+		DBUtils db = new DBUtils();
+		//BasicDBObject doc = new BasicDBObject();
+		DBCollection coll = db.db.getCollection("Suggestions");
+		BasicDBObject query = new BasicDBObject();
+		query.put("_id", 0);
+		query.put("Keywords", 1);
+		query.put("Frequency", 1);
+		DBCursor cursor = coll.find(new BasicDBObject("CID",CelebID),query).limit(limit);
+//		cursor.getKeysWanted("Screen_Name");
+		//System.out.println(coll.find());
+		JSONArray Suggestlist = new JSONArray();
+		
+			
+			   while(cursor.hasNext()) {
+			       JSONObject Celeb;
+			      Celeb = (JSONObject)JSONValue.parse(cursor.next().toString());
+			    //  String screen_name = (String) Celeb.get("Screen_Name");
+			       Suggestlist.add(Celeb);
+//			       System.out.println(cursor.next().toString());
+//			       JSONValue.parse(cursor.next().toString()));
+			       
+//			       System.out.println((String)Celeb.get("screen_name"));
+			   }
+			
+			   cursor.close();
+			
+		
+		return Suggestlist;
+	}
+	
+	
+	public long CelebIDfromScreenName(String ScreenName) throws UnknownHostException
+	{
+		DBUtils db = new DBUtils();
+		//BasicDBObject doc = new BasicDBObject();
+		DBCollection coll = db.db.getCollection("Celebritries");
+		BasicDBObject query = new BasicDBObject("Screen_Name",ScreenName);
+		query.put("_id", 0);
+		query.put("CID", 1);
+		Long CelebID =(long) 0;
+		DBCursor cursor = coll.find(new BasicDBObject(),query);
+//		cursor.getKeysWanted("Screen_Name");
+		//System.out.println(coll.find());
+//		JSONArray Suggestlist = new JSONArray();
+		
+			
+			   while(cursor.hasNext()) {
+			       JSONObject Celeb;
+			      Celeb = (JSONObject)JSONValue.parse(cursor.next().toString());
+			    //  String screen_name = (String) Celeb.get("Screen_Name");
+//			       Suggestlist.add(Celeb);
+//			       System.out.println(cursor.next().toString());
+//			       JSONValue.parse(cursor.next().toString()));
+			       
+			      CelebID= Long.valueOf(Celeb.get("CID").toString()).longValue();
+			       
+			   }
+			
+			   cursor.close();
+			
+		
+		return CelebID;
+	}
     public void refreshDB() {
         DBCollection coll = db.getCollection(DB_CELEBS);
         coll.remove(new BasicDBObject());
