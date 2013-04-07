@@ -13,5 +13,9 @@ public class Celeblist
 		System.out.println(testobject.GetAllCelebs());
 		Long CelebID=testobject.GetCelebIDfromScreenName("kevinpp24");
 		System.out.println(testobject.SuggestlistbyCelebID(CelebID, 50));
+		testobject.BuildCodefromCountry();
+		String country="Argentina";
+		country.toUpperCase();
+		System.out.println(testobject.CountryCodefromCountry(country));
 	}
 }

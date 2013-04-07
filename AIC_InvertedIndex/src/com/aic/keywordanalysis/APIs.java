@@ -39,5 +39,16 @@ public class APIs
 		
 		return null;
 	}
+	public String CountryCodefromCountry(String Country)
+	{
+		CountryNametoCountryCode obj= new CountryNametoCountryCode();
+		return obj.getCountryCode(Country);
+		
+	}
+	public void BuildCodefromCountry()
+	{
+		CountryNametoCountryCode obj= new CountryNametoCountryCode();
+		obj.BuildHashMap();
+	}
 	
 }
