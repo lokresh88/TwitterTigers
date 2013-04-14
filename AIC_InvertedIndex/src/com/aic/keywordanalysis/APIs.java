@@ -1,5 +1,6 @@
 package com.aic.keywordanalysis;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import com.mongodb.*;
 
@@ -49,6 +50,11 @@ public class APIs
 	{
 		CountryNametoCountryCode obj= new CountryNametoCountryCode();
 		obj.BuildHashMap();
+	}
+	public void UpdateSuggestionLists(ArrayList<String> TobeRemoved) throws UnknownHostException
+	{
+		DBUtils Dbobj = new DBUtils();
+		Dbobj.UpdateSuggestion(TobeRemoved);
 	}
 	
 }

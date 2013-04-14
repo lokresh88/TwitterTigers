@@ -1,6 +1,7 @@
 package com.aic.keywordanalysis;
 
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import org.bson.types.ObjectId;
@@ -251,6 +252,20 @@ public class DBUtils {
 			
 		
 		return CelebID;
+	}
+	public void UpdateSuggestion(ArrayList<String> Toberemoved) throws UnknownHostException
+	{
+		DBUtils db = new DBUtils();
+		DBCollection coll = db.db.getCollection("Suggestions");
+		BasicDBObject updateQuery = new BasicDBObject();
+		updateQuery.append("$set", new BasicDBObject().append("Isactive", "false"));
+	 
+		BasicDBObject searchQuery = new BasicDBObject();
+		for(int i=0;i<Toberemoved.size();i++)
+		{
+		searchQuery.append("Keywords",Toberemoved.get(i));
+		}
+		coll.updateMulti(searchQuery, updateQuery);
 	}
     public void refreshDB() {
         DBCollection coll = db.getCollection(DB_CELEBS);
