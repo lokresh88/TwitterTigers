@@ -261,10 +261,13 @@ public class DBUtils {
 		updateQuery.append("$set", new BasicDBObject().append("Isactive", "false"));
 	 
 		BasicDBObject searchQuery = new BasicDBObject();
-		for(int i=0;i<Toberemoved.size();i++)
+		//for(int i=0;i<Toberemoved.size();i++)
 		{
-		searchQuery.append("Keywords",Toberemoved.get(i));
+		searchQuery.append("Keywords",new BasicDBObject("$in",Toberemoved.toArray()));
 		}
+		System.out.println(searchQuery);
+		System.out.println(updateQuery);
+		
 		coll.updateMulti(searchQuery, updateQuery);
 	}
     public void refreshDB() {
