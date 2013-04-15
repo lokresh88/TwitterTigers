@@ -197,6 +197,7 @@ public class DBUtils {
 		query.put("_id", 0);
 		query.put("Keywords", 1);
 		query.put("Frequency", 1);
+		query.put("Isactive", "true");
 		DBCursor cursor = coll.find(new BasicDBObject("CID",CelebID),query).limit(limit);
 //		cursor.getKeysWanted("Screen_Name");
 		//System.out.println(coll.find());
