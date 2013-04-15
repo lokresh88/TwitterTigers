@@ -228,10 +228,11 @@ public class DBUtils {
 		//BasicDBObject doc = new BasicDBObject();
 		DBCollection coll = db.db.getCollection("Celebritries");
 		BasicDBObject query = new BasicDBObject("Screen_Name",ScreenName);
-		query.put("_id", 0);
-		query.put("CID", 1);
+		BasicDBObject projection = new BasicDBObject();
+		projection.put("_id", 0);
+		projection.put("CID", 1);
 		Long CelebID =(long) 0;
-		DBCursor cursor = coll.find(new BasicDBObject(),query);
+		DBCursor cursor = coll.find(query,projection);
 //		cursor.getKeysWanted("Screen_Name");
 		//System.out.println(coll.find());
 //		JSONArray Suggestlist = new JSONArray();
@@ -270,6 +271,44 @@ public class DBUtils {
 		System.out.println(updateQuery);
 		
 		coll.updateMulti(searchQuery, updateQuery);
+	}
+	public JSONObject listofCelebsthatusedgivenkeyword(String keyword,String screenname) throws UnknownHostException
+	{
+		DBUtils db = new DBUtils();
+		//BasicDBObject doc = new BasicDBObject();
+		DBCollection coll = db.db.getCollection("Suggestions");
+		BasicDBObject projection = new BasicDBObject();
+		BasicDBObject query = new BasicDBObject();
+		query.put("CID", CelebIDfromScreenName(screenname));
+//		System.out.println(screenname);
+//		System.out.println(CelebIDfromScreenName(screenname));
+		query.put("Keywords", keyword);
+		projection.put("_id", 0);
+		projection.put("Keywords", 1);
+		projection.put("Frequency", 1);
+		projection.put("Isactive", "true");
+		DBCursor cursor = coll.find(query,projection);
+//		cursor.getKeysWanted("Screen_Name");
+		//System.out.println(coll.find());
+		JSONObject Celeb = new JSONObject();
+		
+			
+			   while(cursor.hasNext()) {
+			       
+			      Celeb = (JSONObject)JSONValue.parse(cursor.next().toString());
+			      
+			    //  String screen_name = (String) Celeb.get("Screen_Name");
+//			       System.out.println(cursor.next().toString());
+//			       JSONValue.parse(cursor.next().toString()));
+			       
+//			       System.out.println((String)Celeb.get("screen_name"));
+			   }
+			
+			   cursor.close();
+			
+		Celeb.put("Name", screenname);
+		return Celeb;
+		
 	}
     public void refreshDB() {
         DBCollection coll = db.getCollection(DB_CELEBS);

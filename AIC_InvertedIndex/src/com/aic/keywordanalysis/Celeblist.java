@@ -18,13 +18,15 @@ public class Celeblist
 		{
 			TobeRemoved.add(split[i]);
 		}
-		System.out.println(testobject.GetAllCelebs());
-		Long CelebID=testobject.GetCelebIDfromScreenName("kevinpp24");
-		System.out.println(testobject.SuggestlistbyCelebID(CelebID, 50));
-		testobject.BuildCodefromCountry();
-		String country="Argentina";
-		country=country.toUpperCase();
-		System.out.println(testobject.CountryCodefromCountry(country));
-		testobject.UpdateSuggestionLists(TobeRemoved);
+//		System.out.println(testobject.GetAllCelebs());
+		
+		System.out.println(testobject.listofCelebsthatusekeyword("smile",testobject.GetAllCelebs()));
+//		Long CelebID=testobject.GetCelebIDfromScreenName("kevinpp24");
+//		System.out.println(testobject.SuggestlistbyCelebID(CelebID, 50));
+//		testobject.BuildCodefromCountry();
+//		String country="Argentina";
+//		country=country.toUpperCase();
+//		System.out.println(testobject.CountryCodefromCountry(country));
+//		testobject.UpdateSuggestionLists(TobeRemoved);
 	}
 }

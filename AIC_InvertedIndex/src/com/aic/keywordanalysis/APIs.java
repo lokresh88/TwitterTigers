@@ -16,7 +16,18 @@ public class APIs
 	{
 	
 	}
-	
+	public JSONArray listofCelebsthatusekeyword(String keyword,JSONArray Celebs) throws UnknownHostException
+	{
+		DBUtils Dbobj=new DBUtils();
+		JSONArray totalsuggests= new JSONArray();
+		for(int i=0;i<Celebs.size();i++)
+		{
+			String celebrity=(String)Celebs.get(i);
+//			System.out.println(celebrity);
+		 totalsuggests.add(Dbobj.listofCelebsthatusedgivenkeyword(keyword,celebrity));
+		}
+		return totalsuggests;
+	}
 	public long GetCelebIDfromScreenName(String ScreenName) throws UnknownHostException
 	{
 		DBUtils Dbobj = new DBUtils();
