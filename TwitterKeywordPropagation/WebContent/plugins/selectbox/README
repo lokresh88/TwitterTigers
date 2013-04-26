@@ -1,0 +1,49 @@
+Custom Select Box CSS Style Plugin: jQuery + CSS
+
+Version 0.3.3 (04/03/2013)
+ * Pass original `customSelectSpan` reference to changed() function
+
+Version 0.3.2 (28/02/2013)
+ * Patch for incorrect select height caused by 0.3.0
+ * Support for `disabled` select boxes via customSelectDisabled class
+ 
+Version 0.3.0 (12/02/2013)
+ * Refactored coding style
+ * Changed filenames to standard jQuery plugin naming conventions
+ * Fixed IE6 Filtering
+ * Added component.json for bower
+ * Moved method 'changed' to local scope
+ * Update to Dual GPL/MIT license
+
+Version 0.2.5 (04/02/2013)
+ * Updates/fixes to .customSelectChanged class usage
+ * customSelectChanged class is added to span when select value changes
+ * customSelectChanged class is removed on mousedown or on blur
+
+Version 0.2.4 (03/02/2013)
+ * Supports hover via .customSelectHover class on customSelect span
+
+Version 0.2.3 (30/01/2013)
+ * Fixes change event not firing for Firefox keyboard users
+ * customSelect no longer triggers the change event on initiation
+
+Version 0.2.1 (17/12/2012)
+ * Select box listens for 'update' event which can be triggered to update the size and content if needed
+ * Removed dependency on $.browser
+
+Version 0.2.0
+
+CHANGES IN 0.2.0
+ * Streamlined creation/selection of span elements
+ * Renamed span classes to "customSelect" and "customSelectInner" to coinside with plugin name
+ * You can now have styles for when select box is open or focused via the classes .customSelectOpen and .customSelectFocus
+ * ability to set a custom class by passing in {customClass:'myClassName'}
+
+Copyright 2013 Adam Coulombe
+
+Dual licensed under the MIT and GPL licenses:
+ *    http://www.gnu.org/licenses/gpl.html
+ *    http://www.opensource.org/licenses/mit-license.php
+   
+
+This lightweight, unintrusive technique uses the native select box functionality of the web browser, and overlays a stylable <span> element in order to acheive your desired look. Since it makes use of default browser functionality,it can be treated just like any ordinary HTML select box.
