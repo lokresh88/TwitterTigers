@@ -282,8 +282,8 @@ public class DBUtils {
         
         JSONObject result = new JSONObject();
         
-        JSONObject dbforceleb = getDBSize(CelebID);
-        result.put("counts", dbforceleb);
+       // JSONObject dbforceleb = getDBSize(CelebID);
+       // result.put("counts", dbforceleb);
         // create our pipeline operations, first with the $match
         DBObject match = new BasicDBObject("$match", new BasicDBObject("CID", CelebID) );
 

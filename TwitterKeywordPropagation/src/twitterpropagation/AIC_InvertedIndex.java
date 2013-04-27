@@ -51,7 +51,7 @@ public class AIC_InvertedIndex {
 
 	public static void main(String args[]) throws IOException {
 		File folder = new File(
-				"C:\\Users\\lokesh\\Desktop\\AIC\\Project\\run2\\");
+				"C:\\Users\\lokesh\\Desktop\\AIC\\Project\\run2\\"); // change your input folder paths here
 		DBUtils db=new DBUtils();
 		//db.refreshDBSuggestions();
 		for (final File fileEntry : folder.listFiles()) {

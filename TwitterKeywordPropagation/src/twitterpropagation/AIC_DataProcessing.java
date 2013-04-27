@@ -20,7 +20,7 @@ public class AIC_DataProcessing {
 		
 //		db.refreshDB();
 		File folder = new File(
-				"C:\\Users\\lokesh\\Desktop\\AIC\\Project\\run2\\");
+				"C:\\Users\\lokesh\\Desktop\\AIC\\Project\\run2\\"); // change your folder paths here .. 
 		for (final File fileEntry : folder.listFiles()) {
 			if (!fileEntry.isDirectory()
 					&& fileEntry.getAbsolutePath().contains("ama.json")) {

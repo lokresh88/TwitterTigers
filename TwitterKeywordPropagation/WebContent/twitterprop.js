@@ -35,8 +35,8 @@ function populateSuggestions(ddData) {
 					function(dataop) {
 						var htmlVal = "<ul>";
 						var data = dataop.op;
-						$("#cTC").html(dataop.counts.tweets);
-						$("#rTC").html(dataop.counts.rtweets);
+					//	$("#cTC").html(dataop.counts.tweets);
+					//	$("#rTC").html(dataop.counts.rtweets);
 						for ( var scnt = 0; scnt < data.length; scnt++) {
 							//console.log(data[scnt]);
 							htmlVal += "<li><a href=\"#\" onclick='javascript:selectKeyword(this)'>"
