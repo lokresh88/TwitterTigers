@@ -1,22 +1,16 @@
+README – Twitter keyword propagation visualizer tool 
 
-DataCollector 
--------------
-Simple PHP collector uses a open source Library to collect live tweets / retweets / mentions of a selected list of celebrities. Run in Jinx Cluster & Json to be collected after a number of days.
+Setup & Source Code details
+As per our architecture the main components include the Data Collector, Data Processor & the Data Visualizer.
+Data Collector:
 
-Input
------
-List of celebrities to follow/monitor.
+Setting up the Visualizer
+•	Import the web application project TwitterKeywordPropagation project into eclipse.
+•	Start the apache web server the landing page of the application is http://localhost:9090/TwitterKeywordPropagation/jsps/twitterPropVisualHome.jsp
+•	Install MongoDB & start the same using mongod.exe
+•	Access shell if required using mongo.exe.
 
-Output
-------
-Json files for each celebrity.
+Note
+The dump of all the processed data needs to be imported so as the Visualizer to act upon. The total size of a mongodump file is about 4GB. Kindly contact us at lokresh88@gmail.com or sriram1991mv@gmail.com in case you want to play around with the tool. You can simply do a mongorestore using this dump folder and start working on the tool.
 
-
-
-InvertedIndex + DataProcessor 
------------------------------
-Inverted Index takes each of the json file collected above and returns the LIst of keywords - will be used a suggestions for our app once a C is selected.
-
-DataProcessor
-------------
-Converts these raw json into related Celeb Info , their Tweets , suggestion Keywords/C & retweets at level 2 --> MongoDB
+Find the pdf version of the README for a quick explanation of source code and setup details.
