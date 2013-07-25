@@ -3,11 +3,9 @@ package com.aic.keywordanalysis;
 import java.io.*;
 import java.util.*;
 
-//import org.json.simple.JSONArray;
+
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
-//import org.json.simple.parser.JSONParser;
-//import org.json.simple.parser.ParseException;
 
 /**
  * InvertedIndex represents an inverted index.
@@ -50,12 +48,15 @@ public class AIC_InvertedIndex {
 	}
 
 	public static void main(String args[]) throws IOException {
+		/* Note : this folder path needs to be changed according to where it is placed.
+		 Also if used in linux, there is no need to escape the slashes(forward slashes in linux)*/
 		File folder = new File(
 				"C:\\Users\\lokesh\\Desktop\\AIC\\Project\\run2\\");
-		DBUtils db=new DBUtils();
-		//db.refreshDBSuggestions();
+		DBUtils db=new DBUtils()
 		for (final File fileEntry : folder.listFiles()) {
 			if (!fileEntry.isDirectory()
+				/* Note this for selecting filtering of celebrities, .contains() will have the celebrity name which is
+				 downloaded as json using the php tweet collector */
 					&& fileEntry.getAbsolutePath().contains("ama.json")) {
 			    //if(fileEntry.getAbsolutePath().contains("oco.json") || fileEntry.getAbsolutePath().contains("ama.json"))
                   //  continue;
@@ -79,7 +80,6 @@ public class AIC_InvertedIndex {
 					jsonObject = (JSONObject)JSONValue.parse(obj);
 					if(jsonObject==null)continue;
 					String text = (String) jsonObject.get("text");
-					// System.out.println(text);
 					String tokens[] = text.split(" ");
 					for (int i = 0; i < tokens.length; i++) {
 						if (!Wordcount.containsKey(tokens[i])) {
@@ -95,7 +95,6 @@ public class AIC_InvertedIndex {
 				AIC_InvertedIndex ai = new AIC_InvertedIndex();
 				Wordcount = ai.sortHashMapByValuesD(Wordcount);
 				for (String key : Wordcount.keySet()) {
-				//	System.out.println("" + key + ":" + Wordcount.get(key));
 					JSONObject sugJson = new JSONObject();
 					sugJson.put("ISACTIVE", true);   // change logic here for useless keywords ***********
 					sugJson.put("FREQ", Wordcount.get(key));
