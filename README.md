@@ -5,12 +5,12 @@ Twitter Keyword Propogation Analyser
 > and that is powerful statement, and we have gone out of our way to prove it.
 > Behold twitter keyword propagation visualiser!
 
-Setup and Source Details:
+Setup and Source Details
 =========================
 
 > As per our architecture the main components include the Data Collector, Data Processor & the Data Visualizer.
 
-Setting up the Visualizer:
+Setting up the Visualizer
 =========================
  
  <ul>
@@ -19,12 +19,12 @@ Setting up the Visualizer:
  <li><p>Install MongoDB & start the same using mongod.exe</p></li>
  <li><p>Access shell if required using mongo.exe. </p></li>
  </ul>
-Screenshots:
+Screenshots
 =============
 
 > Coming up soon.
 
-Notes:
+Notes
 =========
 
 <ul>
@@ -34,7 +34,7 @@ Notes:
 <li>You can simply do a mongorestore using this dump folder and start working on the tool.</li>
 </ul>
 
-Want to Ramp up and Contribute?:
+Want to Ramp up and Contribute?
 ================================
 
 <ul><li>Find the pdf version of the README for a quick explanation of source code and setup details.</li></ul>
